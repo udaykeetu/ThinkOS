@@ -1,0 +1,120 @@
+
+Compiled language: programs are translated into machine language and
+then executed by hardqare, or interpreted.
+
+Interpreted language: programs are read and executed by a software interpreter.
+
+Languages can be either compiled or interpreted. ex: C interpreter, Python Compiler.
+
+
+Java uses a hybrid approach. compiles to intermediate language
+such as Java byte code, which is similar to machine language, but it is executed
+by a software interpreter, the java virtual machine.
+
+Static types: 
+compiled languages static types. you can tell what type each variable has
+ex:
+int add(int x, int y) {
+	return x + y;
+}
+
+dynamic language - happen at run time.
+def add( x, y) {
+	return x - y
+}
+
+compile languages run faster than interpreted languages.
+Declaring types also saves space. In dynamic languages variable names are stored
+in memory while the program runs, and they are often accessible by the program.
+For example, in python the built-in function locals returns a dictionary that contains
+variable names and their values.
+
+name of the variable is stored in the memory while the program is running.
+
+In compiled languages, variable names exist at compile-time but not at run time. The compiler
+chooses a location for each variable and records these locations as part of the compiled program.
+The location of the variable is called its address. At run time, the value of each variable
+is stored at the address, but the names of the variables are not stored at all.
+
+The compilation process:
+1) Preprocessing - preprocessing directives that take effect before the program is compiled.
+for example, the #include directive causes the source code from another file to be inserted at the location
+of the directive.
+
+2) parsing: during parsing, the compiler reads the source code and builds an internal representation
+of the program, called an 'abstract syntax tree'. Errors detected during this step are generally syntax errors.
+
+3) static checking - the compiler checks whether variables and values have the right type, whether functions are called
+with the right number and type of arguments etc. errors detected during this step are sometimes called "static semantic" 
+errors.
+
+4. code generation - compiler reads the internal representation of the program and generates machine code or byte code.
+
+5. linking: if the program uses values and function defined in a libary, the compiler has to find the appropriate library and include the required code.
+
+6. optimization: at several points in the process, the compiler can transform the program to generate code that runs
+faster or use less space. Most optimizations are simple changes that eliminate obvious waste, but some compilers perform
+sophisticated analyses and transformations.
+
+
+The -c flag tells gcc to compile the program and generate machine coee,
+but not to link it or generate an executable.
+$ gcc hello.c -c
+the result is a file named hello.o, where the o stands for "object code"
+which is the compiled program. Object code is not executable, but it can be linked into an executable.
+
+The UNIX command nm reads an object file and generates information about the names it defines and uses.
+
+$nm hello.o
+
+udayas-mbp:ThinkOS udaykiran$ nm hello.o
+0000000000000000 T _main
+                 U _printf
+
+This output indicates that hello.o defines the name main and uses a function named printf.
+you can control how much optimization gcc does with the -0 flag. By default, it does very little optimization, which can make debugging easier. The option -01 turns on the most common and safe optimizations.
+Higher number turns on additional optimizations that require longer compilation time.
+
+1.5 assembly code
+similar to the -c flag, the -S flag tells gcc to compile the program and generate assembly code, which is basically a human-readable form of machine code.
+
+$gcc hello.c -S
+$ vi hello.s
+        .section        __TEXT,__text,regular,pure_instructions
+        .build_version macos, 10, 14
+        .globl  _main                   ## -- Begin function main
+        .p2align        4, 0x90
+_main:                                  ## @main
+        .cfi_startproc
+## %bb.0:
+        pushq   %rbp
+        .cfi_def_cfa_offset 16
+        .cfi_offset %rbp, -16
+        movq    %rsp, %rbp
+        .cfi_def_cfa_register %rbp
+        subq    $32, %rsp
+        leaq    L_.str(%rip), %rax
+        movl    %edi, -4(%rbp)
+        movq    %rsi, -16(%rbp)
+        movq    %rax, %rdi
+        movb    $0, %al
+        callq   _printf
+        xorl    %ecx, %ecx
+        movl    %eax, -20(%rbp)         ## 4-byte Spill
+        movl    %ecx, %eax
+        addq    $32, %rsp
+        popq    %rbp
+        retq
+        .cfi_endproc
+                                        ## -- End function
+        .section        __TEXT,__cstring,cstring_literals
+L_.str:                                 ## @.str
+        .asciz  "Hello World\n"
+
+
+.subsections_via_symbols
+
+1.6 taking another step
+
+$ gcc hello.c -E
+The result is the output from the preprocessor. 
