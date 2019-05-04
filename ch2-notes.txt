@@ -1,0 +1,41 @@
+Processes
+Abstraction: simplified representation of something complicated.
+A large part of software engineering is designing abstractions like these that allow users and
+other programmers to use powerful and complicated systems without having to know about the details of their
+implementation.
+
+Virtualization:
+An important  kind of abstraction is virtualization, which is the process of creating
+a desirable illusion.
+
+Isolation:
+
+the software object that provides an isolation is a process. one of the most important goals of an operating system is to isolate each running program from the others so that programmers don't have to think about every possible interaction.
+
+A process is a software object that represents a running program. I mean "software object" in the
+sense of object-oriented programming, in general, an object contains data and provides methods that operate
+on the data. A process is an object that contains the following data.
+
+
+A process is an object that contains the following data:
+- the text of the program, usually a sequence of machine language instructions.
+- data associated with the program, including static data(allocated at compile time) and dynamic data
+including the call stack and the heap.
+- the state of any pending input/output operations. for example, if the process is waiting for data to be
+read from the disk or for a packet to arrive on a network, the status of these operations is part of the process.
+
+- The hardware state of the program, which includes data stored in registers, status information, and the
+program counter, which indicates which instruction is currently executing.
+
+multi-tasking:
+most operating systems have the ability to interrupt a running process at almost any time, save this hardware state, and then resume the process later.
+
+Virtual-memory:
+most operating system create illusion that each process has its own chunk of memory, isolated from all other
+processes, again programmers generally don't have to think about how virtual memory works.
+
+device abstraction:
+processes running on the same computer share the disk drive, the network interface, the graphics card, and
+other hardware.
+
+
